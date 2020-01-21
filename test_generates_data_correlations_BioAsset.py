@@ -3,7 +3,7 @@ from os.path import isfile, join
 import numpy as np
 import sys, getopt
 import csv
-from imfractal import *
+from .imfractal import *
 
 test_usage_str = sys.argv[0] + " -p <path_mats>"
 
@@ -29,21 +29,21 @@ else:
 try:
     opts, args = getopt.getopt(argv, "h:p:", ["path_mats="])
 except getopt.GetoptError:
-    print test_usage_str
+    print(test_usage_str)
     sys.exit(2)
 
 for opt, arg in opts:
     if opt == '-h':
-        print test_usage_str
+        print(test_usage_str)
         sys.exit()
     elif opt in ("-p", "--path_mats"):
         path_mats = arg
 
-print path_mats
+print(path_mats)
 
 if path_mats == '':
-    print "Please specify path to matlab matrices with option -p"
-    print test_usage_str
+    print("Please specify path to matlab matrices with option -p")
+    print(test_usage_str)
     exit()
 
 slice_files = [f for f in listdir(path_mats) if isfile(join(path_mats, f)) and "Slices" in f]
@@ -55,7 +55,7 @@ path = 'exps/data/'
 #meta = np.load(path + 'bioAsset_meta.npy')
 
 # subset of slice_files
-print path + 'mfs'+MFS_STR+TRANSFORMED_INPUT_STR +'_BioAsset.npy'
+print(path + 'mfs'+MFS_STR+TRANSFORMED_INPUT_STR +'_BioAsset.npy')
 mfs_data = np.load(path + 'mfs'+MFS_STR+TRANSFORMED_INPUT_STR +'_BioAsset.npy')
 
 
@@ -69,7 +69,7 @@ writer = csv.writer(f)
 
 line = ('Filename',)
 
-line += tuple(map(lambda x: "MFS " + str(x), range(mfs_data.shape[1])))
+line += tuple(["MFS " + str(x) for x in range(mfs_data.shape[1])])
 
 writer.writerow(line)
 
@@ -97,5 +97,5 @@ for slice_filename in slice_files:
 
         i += 1
 
-print "Shape: ", result.shape
+print("Shape: ", result.shape)
 np.save(path+'mfs'+MFS_STR+ TRANSFORMED_INPUT_STR +'_and_standard_params.npy', result)

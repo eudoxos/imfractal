@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 
 def do_test():
@@ -34,10 +34,10 @@ def do_test():
     i = Boxdimension()
     i.setDef(40,1.15)
 
-    print "Computing Box Dimension..."
+    print("Computing Box Dimension...")
     #t =  time.clock()
     fds = i.getFDs(filename)
     #t =  time.clock()-t
     #print "Time Boxdimension: ", t
-    print fds
+    print(fds)
 

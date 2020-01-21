@@ -24,5 +24,5 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import tests.test_3DMFS_only as tmfs
+from . import tests.test_3DMFS_only as tmfs
 tmfs.do_test()

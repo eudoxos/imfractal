@@ -3,7 +3,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import PIL
-import Image
+from PIL import Image
 
 DEBUG =True
 #directory="splitted_mri/"
@@ -29,11 +29,11 @@ stack = np.load("../exps/data/bone_sample.npy")
 
 HISTOGRAM = False
 if(HISTOGRAM):
-    hist = np.histogram(stack, bins=range(np.amin(stack), np.amax(stack)))
+    hist = np.histogram(stack, bins=list(range(np.amin(stack), np.amax(stack))))
 
     np.save("hist.npy", hist)
     import matplotlib.pyplot as plt
-    plt.hist(hist[0], bins=range(np.amin(stack), np.amax(stack)))
+    plt.hist(hist[0], bins=list(range(np.amin(stack), np.amax(stack))))
     plt.show()
 
 #for i in l:
@@ -47,9 +47,9 @@ if(HISTOGRAM):
 
 if DEBUG :
     res = np.amax(stack)
-    print 'max value',res
+    print('max value',res)
     res1 = np.amin(stack)
-    print 'min value',res1
+    print('min value',res1)
 
 #convert the stack in the right dtype
 stack = np.clip(stack, -210,296)
@@ -62,28 +62,28 @@ stack = -np.amin(stack) + stack
 
 if DEBUG :
     res = np.amax(stack)
-    print 'max value',res
+    print('max value',res)
     res1 = np.amin(stack)
-    print 'min value',res1
+    print('min value',res1)
 
-print stack
+print(stack)
 stack = np.array(255.0*(stack / np.amax(stack).astype(np.float32))).astype(np.uint8)
-print stack
+print(stack)
 
 HIST2 = False
 if HIST2:
-    hist = np.histogram(stack, bins=range(np.amin(stack), np.amax(stack)))
+    hist = np.histogram(stack, bins=list(range(np.amin(stack), np.amax(stack))))
 
     np.save("hist2.npy", hist)
     import matplotlib.pyplot as plt
-    plt.hist(hist[0], bins=range(np.amin(stack), np.amax(stack)))
+    plt.hist(hist[0], bins=list(range(np.amin(stack), np.amax(stack))))
     plt.show()
 
 if DEBUG :
     res = np.amax(stack)
-    print 'max value',res
+    print('max value',res)
     res1 = np.amin(stack)
-    print 'min value',res1
+    print('min value',res1)
 
 
 stack = np.require(stack,dtype=np.uint8)
@@ -92,16 +92,16 @@ stack = np.require(stack,dtype=np.uint8)
 
 if DEBUG :
     res = np.amax(stack)
-    print 'max value',res
+    print('max value',res)
     res1 = np.amin(stack)
-    print 'min value',res1
+    print('min value',res1)
 
 if DEBUG :#check if the image have not been modified
     test = stack [:,:,0]
     plt.imshow(test,cmap='gray')
     plt.show()
 
-if DEBUG : print 'stack shape & dtype' ,stack.shape,',',stack.dtype
+if DEBUG : print('stack shape & dtype' ,stack.shape,',',stack.dtype)
 
 dataImporter = vtk.vtkImageImport()
 data_string = stack.tostring()

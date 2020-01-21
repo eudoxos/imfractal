@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -69,7 +69,7 @@ def compute_linear_model(mfs, measures):
 
     # Results
     #print "Coefs:", clf.coef_
-    print "Score (R^2):", clf.score(X, fexp)
+    print("Score (R^2):", clf.score(X, fexp))
 
 def compute_values(mfs, measures, filename):
     #print "Measures.shape : ", measures.shape
@@ -91,7 +91,7 @@ def compute_values(mfs, measures, filename):
             correls[d, m] = scipy.stats.stats.spearmanr(mfs[:, d], measures[:, m])[0]
 
     #print correls
-    print "Higher correlations: ", np.min(correls), np.max(correls)
+    print("Higher correlations: ", np.min(correls), np.max(correls))
 
     #plt.plot(correls)
     #plt.show()
@@ -119,11 +119,11 @@ def do_test():
     data_mfs_l = data_mfs_l[:, : mfs_last_d]
 
     # compute the three mfs separately
-    print "MFS ONLY"
+    print("MFS ONLY")
     compute_values(data_mfs, measures, data_path + "correls_measures_mfs" + BASE_NAME + ".npy")
-    print "MFS GRADIENT ONLY"
+    print("MFS GRADIENT ONLY")
     compute_values(data_mfs_g, measures, data_path + "correls_measures_mfs_gradient.npy")
-    print "MFS LAPLACIAN ONLY"
+    print("MFS LAPLACIAN ONLY")
     compute_values(data_mfs_l, measures, data_path + "correls_measures_mfs_laplacian.npy")
 
     # combinations
@@ -132,11 +132,11 @@ def do_test():
     data_mfs_l_plus_mfs_g = np.hstack((data_mfs_l, data_mfs_g))
     data_mfs_plus_mfs_g_plus_mfs_l = np.hstack((data_mfs, data_mfs_g, data_mfs_l))
 
-    print "MFS + MFS LAPLACIAN"
+    print("MFS + MFS LAPLACIAN")
     compute_values(data_mfs_plus_mfs_l, measures, data_path + "correls_measures_mfs_plus_mfs_laplacian.npy")
-    print "MFS + MFS GRADIENT"
+    print("MFS + MFS GRADIENT")
     compute_values(data_mfs_plus_mfs_g, measures, data_path + "correls_measures_mfs_plus_mfs_gradient.npy")
-    print "MFS GRADIENT + MFS LAPLACIAN"
+    print("MFS GRADIENT + MFS LAPLACIAN")
     compute_values(data_mfs_l_plus_mfs_g, measures, data_path + "correls_measures_mfs_laplacian_plus_mfs_gradient.npy")
-    print "MFS + MFS GRADIENT + MFS LAPLACIAN"
+    print("MFS + MFS GRADIENT + MFS LAPLACIAN")
     compute_values(data_mfs_plus_mfs_g_plus_mfs_l, measures, data_path + "correls_measures_mfs_l_plus_mfs_g_plus_mfs_l.npy")

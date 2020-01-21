@@ -3,7 +3,7 @@ cimport numpy as np
 import scipy
 import scipy.stats
 import time
-import Image
+from PIL import Image
 
 
 DTYPE = np.uint8
@@ -35,7 +35,7 @@ def mww(int x1,int y1,int x2,int y2,np.ndarray[DTYPE_ti, ndim=2] intImg, int Nx,
         sum = sum - intImg[x2][y1-1]
     return sum/((x2-x1+1)*(y2-y1+1))
 
-def white(np.ndarray[DTYPE_ti, ndim=2] img,int Nx,int Ny,int v,float b):               
+def white(np.ndarray[DTYPE_ti, ndim=2] img,int Nx,int Ny,int v,float b):
     cdef int i, j
     cdef np.ndarray[DTYPE_ti, ndim=2] im = np.zeros((Nx,Ny),dtype=np.int32)
     cdef np.ndarray[DTYPE_ti, ndim=2] intImg = sat(img,Nx,Ny)
@@ -44,17 +44,17 @@ def white(np.ndarray[DTYPE_ti, ndim=2] img,int Nx,int Ny,int v,float b):
             if(mww(i-v,j-v,i+v,j+v,intImg,Nx,Ny) >= img[i,j]*b and img[i,j] > 0):
                     im[i,j] = 255
     return im
-               
+
 
 # constructs summed area table
 def sat(np.ndarray[DTYPE_ti, ndim=2] img,int Nx,int Ny):
     cdef np.ndarray[DTYPE_ti, ndim=2] intImg = np.empty((Nx,Ny),dtype = np.int32)
     cdef int f,g
-        
+
     intImg[0,0] = img[0,0]
-    intImg[1:,0] = intImg[0:-1,0] + img[1:,0]    
+    intImg[1:,0] = intImg[0:-1,0] + img[1:,0]
     intImg[0,1:] = intImg[0,0:-1] + img[0,1:]
-    
+
     for f from 1<=f<Nx:
         for g from 1<=g<Ny:
            intImg[f,g] = img[f,g]+intImg[f-1,g]+intImg[f,g-1]-intImg[f-1,g-1]
@@ -134,5 +134,3 @@ def aux(int P, int total, int Nx, int Ny,
         h+=1
 
     return res
-
-

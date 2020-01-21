@@ -26,7 +26,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 from imfractal import *
-import Image
+from PIL import Image
 import time
 import csv
 import sys
@@ -78,7 +78,7 @@ def do_test(minn,vals):
     #cantTestNB = 1#len(dirListnbte)
 
     breadtrain = np.zeros((cantTrainB, dDFs)).astype(np.float32)
-    print breadtrain[0].shape
+    print(breadtrain[0].shape)
     breadtest = np.zeros((cantTestB, dDFs)).astype(np.float32)
 
     #nonbreadtrain = np.zeros((cantTrainNB, dDFs)).astype(np.float32)
@@ -87,14 +87,14 @@ def do_test(minn,vals):
     ins = Sandbox(dfs)
 
     if(computeMFS):
-        print 'Training: computing sandbox MFS for the bread database...'
+        print('Training: computing sandbox MFS for the bread database...')
         ins.setDef(40,1.02,True)
         #print "Computing " + str(cantTrainB) +" bread train..."
         for i in range(cantTrainB):
             filename = pathbtr+dirListbtr[i]
             breadtrain[i] = ins.getFDs(filename)
     else:
-        print "Loading CSV"
+        print("Loading CSV")
         with open('breadtrainS.csv', 'rb') as csvfile:
             spamreader = csv.reader(csvfile)
             i = 0
@@ -130,9 +130,9 @@ def do_test(minn,vals):
 
         #labels = np.hstack((labelsbtr[:,0],labelsbte[:,0],labelsnbtr[:,0],labelsnbte[:,0]))
 
-        print "Saving CSVs for SOM"
+        print("Saving CSVs for SOM")
 
-        print "Shapes: labelsbtr: ", labelsbtr.shape, "breadtrain: ",breadtrain.shape
+        print("Shapes: labelsbtr: ", labelsbtr.shape, "breadtrain: ",breadtrain.shape)
 
         writecsv('breadtrainS.csv',np.hstack((labelsbtr,breadtrain)) )
         #writecsv('breadtestS.csv',np.hstack((labelsbte,breadtest)) )
@@ -158,16 +158,16 @@ def do_test(minn,vals):
         gtruth = np.hstack((labelsbte[:,0],labelsnbte[:,0]))
         predictionsRF = cfr.predict(test) # test
 
-        print dirListbte
-        print dirListbtr
-        print "Random Forest Prediction:"
-        print predictionsRF[:cantTestB]
-        print predictionsRF[cantTestB:]
-        print "SVM Prediction:"
-        print predictionsSVM[:cantTestB]
-        print predictionsSVM[cantTestB:]
-        print "REAL: "
-        print gtruth
+        print(dirListbte)
+        print(dirListbtr)
+        print("Random Forest Prediction:")
+        print(predictionsRF[:cantTestB])
+        print(predictionsRF[cantTestB:])
+        print("SVM Prediction:")
+        print(predictionsSVM[:cantTestB])
+        print(predictionsSVM[cantTestB:])
+        print("REAL: ")
+        print(gtruth)
 
         x = np.arange(dDFs)
 
@@ -187,7 +187,7 @@ def do_test(minn,vals):
     plt.ylim((y0,y1))
     #plt.xlabel('Real Breads',fontsize=fsize)
     b = plt.boxplot(np.vstack((breadtrain)),sym="")
-    mediansReal = map(lambda i: i.get_data()[1][0],b['medians'])
+    mediansReal = [i.get_data()[1][0] for i in b['medians']]
     x = np.arange(len(mediansReal))
 
 
@@ -196,7 +196,7 @@ def do_test(minn,vals):
     #plt.ylim((y0, y1))
     plt.xlabel('$q$',fontsize=fsize)
     b = plt.boxplot(np.vstack((breadtest)),sym="")
-    mediansSynth = map(lambda i: i.get_data()[1][0],b['medians'])
+    mediansSynth = [i.get_data()[1][0] for i in b['medians']]
     
     #plt.show()
 
@@ -205,11 +205,11 @@ def do_test(minn,vals):
     err1 = sum(abs(np.array(mediansReal[:dfs])-np.array(mediansSynth[:dfs])))
     err2 = sum(abs(np.array(mediansReal[dfs:])-np.array(mediansSynth[dfs:])))
 
-    qs = range(-dfs,dfs+1)
+    qs = list(range(-dfs,dfs+1))
 
     xticks(x+1,qs) # translate
 
-    print "ERROR: ", err
+    print("ERROR: ", err)
 
     if(err < minn):
         plt.plot(x+1, mediansReal, 'k+--', label='real',linewidth=2.0)   
@@ -228,8 +228,8 @@ def do_test(minn,vals):
         scoreSVM = (len(gtruth)-sum(abs(gtruth-predictionsSVM)))/float(len(gtruth))
 
         #scores = cross_validation.cross_val_score(cfr, data, labels, cv=4)
-        print "Classification performance (Random Forest classifier): " + str( scoreRF*100 ) + "%"
-        print "Classification performance (Support Vector Machine classifier): " + str( scoreSVM*100 ) + "%"
+        print("Classification performance (Random Forest classifier): " + str( scoreRF*100 ) + "%")
+        print("Classification performance (Support Vector Machine classifier): " + str( scoreSVM*100 ) + "%")
 
 
 

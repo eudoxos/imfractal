@@ -25,11 +25,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 from random import randrange,randint,seed
 from math import log
 from scipy import ndimage
-import Image
+from PIL import Image
 import numpy as np
 import scipy
 import scipy.stats
@@ -82,8 +82,8 @@ class Sandbox (Algorithm):
         if(which == 'img'):
             intImg[0][0] = img.getpixel((0,0))
             
-            arrNx = range(1,Nx)
-            arrNy = range(1,Ny)
+            arrNx = list(range(1,Nx))
+            arrNy = list(range(1,Ny))
             for h in arrNx:
                 intImg[h][0] = intImg[h-1][0] + img.getpixel((h,0))
             
@@ -96,8 +96,8 @@ class Sandbox (Algorithm):
         else:
             intImg[0][0] = img[0][0]
             
-            arrNx = range(1,Nx)
-            arrNy = range(1,Ny)
+            arrNx = list(range(1,Nx))
+            arrNy = list(range(1,Ny))
             for h in arrNx:
                 intImg[h][0] = intImg[h-1][0] + img[h][0]
             
@@ -118,8 +118,8 @@ class Sandbox (Algorithm):
         
         intImg = self.sat(img,Nx,Ny,'img')
             
-        arrNx = range(Nx)
-        arrNy = range(Ny)
+        arrNx = list(range(Nx))
+        arrNy = list(range(Ny))
 
         vent = int(self.v)
         for i in arrNx:
@@ -165,7 +165,7 @@ class Sandbox (Algorithm):
         else: 
             b = a.getdata()
             if(type(b[0]) is int): a=b
-            else: a = np.array(map (lambda i: i[0], np.array(b))) # argh!
+            else: a = np.array([i[0] for i in np.array(b)]) # argh!
             gray = np.array(a,np.uint8).reshape(b.size[1],b.size[0])
         #plt.imshow(gray, cmap=matplotlib.cm.gray)
         #plt.show()
@@ -177,15 +177,15 @@ class Sandbox (Algorithm):
 
         m0 = intImg[Nx-1][Ny-1]
 
-        l = range(-self.cant,self.cant+1)
+        l = list(range(-self.cant,self.cant+1))
         res = np.zeros(len(l), dtype=np.double )
 
         if(m0 == 0):
-            print "Empty IMAGE structure!!!"
+            print("Empty IMAGE structure!!!")
             return res
 
         if(m0 < self.total):
-            print "Warning: structure with less points than expected"
+            print("Warning: structure with less points than expected")
             self.total = m0/2 # FIX ME
             
 
@@ -210,7 +210,7 @@ class Sandbox (Algorithm):
 
         # R's
         stepR = 1
-        rvalues = np.array(range(startR,self.P+startR,stepR))
+        rvalues = np.array(list(range(startR,self.P+startR,stepR)))
         # ln (R/L)
         sizes = np.log(rvalues/float(Nx))
 
@@ -236,7 +236,7 @@ class Sandbox (Algorithm):
                 slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(sizes,c/float(q-1))
                 plt.plot(sizes,c/float(q-1))
 
-                print slope,"Residual for q = ", q," : " , "scipy:", r_value**2
+                print(slope,"Residual for q = ", q," : " , "scipy:", r_value**2)
 
             else: 
                 # q = 1
@@ -255,7 +255,7 @@ class Sandbox (Algorithm):
 
                 slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(sizes,c)
                 plt.plot(sizes,c)
-                print slope,"Residual for q = ", q," : " , "scipy:", r_value**2
+                print(slope,"Residual for q = ", q," : " , "scipy:", r_value**2)
 
             res[h] = slope
             h+=1

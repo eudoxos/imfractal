@@ -25,14 +25,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 from random import randrange,randint
 from math import log
 from scipy import ndimage
 from pylab import plot, title, show , legend
 import matplotlib
 from matplotlib import pyplot as plt
-import Image
+from PIL import Image
 import numpy as np
 import sys
 import os
@@ -159,7 +159,7 @@ class Singularity (Algorithm):
                         N[k] = N[k] + f;
 
             # Haussodorf (box) dimention of the alpha distribution
-            falpha[c] = -np.polyfit(map(lambda i: np.log(i*2+1),range(cant+1)),np.log(map(lambda i: i+1,N)),1)[0]
+            falpha[c] = -np.polyfit([np.log(i*2+1) for i in range(cant+1)],np.log([i+1 for i in N]),1)[0]
 
         s = np.hstack((clases,falpha))
         return s

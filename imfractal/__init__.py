@@ -25,24 +25,24 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 #from Path import Path
-import Algorithm.Sandbox
+import imfractal.Algorithm.Sandbox
 
 cython = True
 
 if(cython):
-    import Algorithm.CSandbox
-    import Algorithm.CSandbox3D
+    import imfractal.Algorithm.CSandbox
+    import imfractal.Algorithm.CSandbox3D
 
 #import Algorithm.SandboxCL
-import Algorithm.MFS
-import Algorithm.Singularity
-import Algorithm.Boxdimension
-import Algorithm.MFS_3D
-import Algorithm.Local_MFS_3D
-import Algorithm.Local_MFS_Pyramid_3D
-import Algorithm.MFS_3D_Slices
-import Algorithm.Stats_MFS_3D
-import Algorithm.Stats_MFS_Pyramid_3D
+import imfractal.Algorithm.MFS
+import imfractal.Algorithm.Singularity
+import imfractal.Algorithm.Boxdimension
+import imfractal.Algorithm.MFS_3D
+import imfractal.Algorithm.Local_MFS_3D
+import imfractal.Algorithm.Local_MFS_Pyramid_3D
+import imfractal.Algorithm.MFS_3D_Slices
+import imfractal.Algorithm.Stats_MFS_3D
+import imfractal.Algorithm.Stats_MFS_Pyramid_3D
 
 
 #SandboxCL = Algorithm.SandboxCL.SandboxCL

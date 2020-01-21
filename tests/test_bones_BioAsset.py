@@ -51,7 +51,7 @@ def stats_test(_output_filename, input_filename):
 
     for i in range(len(data)):
 
-        print i
+        print(i)
 
         if extension == 'csv':
             mfs = np.array(tuple(data[i])[first_f:])#.astype(np.float32)
@@ -120,11 +120,11 @@ def stats_test(_output_filename, input_filename):
             mfss[i] = tmp
 
 
-        print mfss[i], i
+        print(mfss[i], i)
 
         np.save(data_path + _output_filename, mfss)
 
-    print "Saved ", data_path + _output_filename
+    print("Saved ", data_path + _output_filename)
 
 def do_test(_path, _output_filename):
 
@@ -172,7 +172,7 @@ def do_test(_path, _output_filename):
     slice_files = sort(slice_files)
 
     if len(mask_files) != len(slice_files):
-        print "The directory should contain the same amount of slices and masks"
+        print("The directory should contain the same amount of slices and masks")
         exit()
 
     i = 0
@@ -189,10 +189,10 @@ def do_test(_path, _output_filename):
         # obviously we can directly use slice_files[i], but this adds robustness
         slice_filename = _path + "BA" + patient_str + "_120_" + scan_str + "Slices.mat"
         if slice_filename == _path + slice_files[i]:
-            print "MASK: ", mask_filename
-            print "SLICE: ", slice_filename
+            print("MASK: ", mask_filename)
+            print("SLICE: ", slice_filename)
         else:
-            print "Cannot process test: filename ", _path + slice_files[i], " should be ", slice_filename
+            print("Cannot process test: filename ", _path + slice_files[i], " should be ", slice_filename)
             exit()
 
         if not(MFS_HOLDER):
@@ -221,14 +221,14 @@ def do_test(_path, _output_filename):
             #    mfss[i] = aux.getFDs()
 
         # in case something goes wrong, save computed mfs up to here
-        print "Data partially saved to ", data_path + _output_filename + ".npy"
+        print("Data partially saved to ", data_path + _output_filename + ".npy")
 
         np.save(data_path + _output_filename, mfss)
 
         i += 1
 
 
-    print "Data saved to ", data_path + _output_filename + ".npy"
+    print("Data saved to ", data_path + _output_filename + ".npy")
     np.save(data_path + _output_filename, mfss)
 
 

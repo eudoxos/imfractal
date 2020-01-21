@@ -1,7 +1,7 @@
 import numpy as np
 import random
-import Image
-import ImageDraw
+from PIL import Image
+from PIL import ImageDraw
 import os
 import time
 
@@ -60,26 +60,26 @@ def computeCages():
         cageReal[i] = cageOrig[i]+trs[i]
         cageNew[i] = cageOrig[i]-trs[i]
 
-    print len(cageNew),len(cageOrig)
+    print(len(cageNew),len(cageOrig))
 
     #print cageOrig
     #print cageReal
     #print cageNew
 
-    return cageReal, np.array(map (lambda i: np.array(i),cageNew)), cageOrig
+    return cageReal, np.array([np.array(i) for i in cageNew]), cageOrig
 
 
 def main(param_a,param_b,param_c,param_d,param_e):
     #print "Starting..."
 
-    if not os.path.isdir('warp'): 
-        os.mkdir ( 'warp' ) 
+    if not os.path.isdir('warp'):
+        os.mkdir ( 'warp' )
 
-    if not os.path.isdir('warp/baked'): 
-        os.mkdir ( 'warp/baked' ) 
+    if not os.path.isdir('warp/baked'):
+        os.mkdir ( 'warp/baked' )
 
-    if not os.path.isdir('warp/warped'): 
-        os.mkdir ( 'warp/warped' ) 
+    if not os.path.isdir('warp/warped'):
+        os.mkdir ( 'warp/warped' )
 
     arr = calc()
     gx, gy = np.gradient(arr)
@@ -131,7 +131,7 @@ def main(param_a,param_b,param_c,param_d,param_e):
 
 
     #print "Baking..."
-    for x in range(0,N):    
+    for x in range(0,N):
         for y in range(0,N):
             u = np.round(x+k*gx2[x,y])
             v = np.round(y+k*gy2[x,y])
@@ -154,7 +154,7 @@ def main(param_a,param_b,param_c,param_d,param_e):
     #return I2
 
     field3 = np.zeros((N,N,Nz)).astype(np.uint8) + np.uint8(255)
-    print "Warping..."
+    print("Warping...")
 
     t2 = t1 = t3= 0
     p=int(N/4)
@@ -184,7 +184,7 @@ def main(param_a,param_b,param_c,param_d,param_e):
             s[2*i+1]  =   cageOrig[2*i+1] - y;
         }
 
-        int cut = 0; // FIX ME!!: we should skip one part or not 
+        int cut = 0; // FIX ME!!: we should skip one part or not
         for(i = 0; i < nSize; i++) {
             dx  =   (float)s[2*i];
             dy  =   (float)s[2*i+1];
@@ -232,7 +232,7 @@ def main(param_a,param_b,param_c,param_d,param_e):
 
 
             if( fabs(wsum) > 0.0)
-                for(i = 0; i < nSize; i++) 
+                for(i = 0; i < nSize; i++)
                     dest[i] /= wsum;
         }
 
@@ -277,7 +277,7 @@ def main(param_a,param_b,param_c,param_d,param_e):
     prg.main(queue, (N-2*p,N-2*p), None, cageOrig_buf, cageNew_buf, dest_xn_buf, np.int32(nSize), np.float32(eps), np.int32(p), np.int32(N))
     cl.enqueue_read_buffer(queue, dest_xn_buf, xn).wait()
 
-    print "TIEMPO MVC: ", time.clock()-t
+    print("TIEMPO MVC: ", time.clock()-t)
 
     t = time.clock()
     for x in range(p,N-p):
@@ -287,13 +287,13 @@ def main(param_a,param_b,param_c,param_d,param_e):
            b = xxn/(N-2*p)
            field3[x,y] = field2[a+p,b+p]
 
-    print "TIEMPO MVC2: ", time.clock()-t
+    print("TIEMPO MVC2: ", time.clock()-t)
 
     for h in range(len(cageReal)):
         field3 = paint(cageReal[h],N,field3,0,4)
         field3 = paint(cageOrig[h],N,field3,120,6)
     #I3 = Image.new('L',(N,Nz*N),0.0)
-    print "Saving Image..."
+    print("Saving Image...")
     Ires = 0
     for w in range(Nz):
         II = Image.frombuffer('L',(N,N), 255-np.array(field3[:,:,w]).astype(np.uint8),'raw','L',0,1)
@@ -306,7 +306,7 @@ def main(param_a,param_b,param_c,param_d,param_e):
         #I3.paste(II,(0,N*w))
 
     I3.save('warp/warped'+str(i)+'.png')
-    print "Image "+ str(i) +" saved"
+    print("Image "+ str(i) +" saved")
     return Ires
 
 

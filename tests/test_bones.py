@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -67,9 +67,9 @@ def do_test():
 
                 filename = path+slices+i+j+".mat"
 
-                print i,j,"voi: ",k
-                print fmask
-                print filename
+                print(i,j,"voi: ",k)
+                print(fmask)
+                print(filename)
 
                 mfss[ii,jj,k-1] = aux.getFDs(filename)
 

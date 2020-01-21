@@ -3,7 +3,7 @@ cimport numpy as np
 import scipy
 import scipy.stats
 import time
-import Image
+from PIL import Image
 import matplotlib.pyplot as plt
 from numpy import linalg
 
@@ -37,7 +37,7 @@ cdef saveField(field,filename):
 
     for w in range(Nz):
         II = Image.frombuffer('L',(N-2*pp,N-2*pp), np.array(field[pp:N-pp,pp:N-pp,w]).astype(np.uint8),'raw','L',0,1)
-        if(w == 216 and filename == "textures/system"): 
+        if(w == 216 and filename == "textures/system"):
             II.save(filename+"/slice216.png")
         I3.paste(II,(0,(N-2*pp)*w))
 
@@ -74,7 +74,7 @@ def volume(np.ndarray[DTYPE_tf, ndim=1] params, int N, int Nz):
 
     saveField(255*field,'spec')
     return field
-    
+
 # sum of values in the region (x1,y1,z1), (x2,y2,z2) in intImg
 # intImg: summed area table
 cdef count(int x1,int y1,int z1, int x2,int y2, int z2, np.ndarray[DTYPE_ti, ndim=3] intImg, int Nx, int Ny, int Nz):
@@ -152,5 +152,3 @@ def aux(int P, int total, int Nx, int Ny, int Nz,
     res[half_dim + 1] = (res[half_dim] + res[half_dim + 2]) / 2.0
 
     return res
-
-

@@ -47,12 +47,12 @@ def handle_args(argv):
     try:
         opts, args = getopt.getopt(argv, "hc:p:o:i:", ["compile_cython=", "path_mats=", "output_filename=", "input_filename="])
     except getopt.GetoptError:
-        print test_name + " -c <compile_cython> -p <path_mats> -o <output_filename> -i <input_filename>"
+        print(test_name + " -c <compile_cython> -p <path_mats> -o <output_filename> -i <input_filename>")
         sys.exit(2)
 
     for opt, arg in opts:
         if opt == '-h':
-            print test_name + " -c <compile_cython> -p <path_mats>"
+            print(test_name + " -c <compile_cython> -p <path_mats>")
             sys.exit()
         elif opt in ("-c", "--compile_cython"):
             compile_cython = arg
@@ -65,11 +65,11 @@ def handle_args(argv):
 
 
     if output_filename == '' :
-        print "No output filename specified. Using default filename"
+        print("No output filename specified. Using default filename")
         output_filename = "test_bones_output"
 
     if input_filename == '':
-        print "No input filename specified. Using regular test"
+        print("No input filename specified. Using regular test")
 
 
     if compile_cython in ("True", "T", "true", "t"):
@@ -82,11 +82,11 @@ def handle_args(argv):
             command2 = "gcc -c -fPIC -I/usr/include/python2.7/ "+arr[i]+".c"+" -o "+arr[i]+".o"
             command3 = "gcc -shared "+arr[i]+".o -o "+arr[i]+".so"
 
-            print command1
+            print(command1)
             os.system(command1)
-            print command2
+            print(command2)
             os.system(command2)
-            print command3
+            print(command3)
             os.system(command3)
 
     return path_mats, output_filename, input_filename
@@ -97,14 +97,13 @@ if __name__ == "__main__":
 
     if path_mats == '' :
         if input_filename == '':
-            print "Please specify path to matlab matrices with option -p"
-            print test_name + " -c <compile_cython> -p <path_mats>"
+            print("Please specify path to matlab matrices with option -p")
+            print(test_name + " -c <compile_cython> -p <path_mats>")
             exit()
 
 
-    import tests.test_bones_BioAsset as tbba
+    import imfractal.tests.test_bones_BioAsset as tbba
     if input_filename == '':
         tbba.do_test(path_mats, output_filename)
     else:
         tbba.stats_test(output_filename, input_filename)
-

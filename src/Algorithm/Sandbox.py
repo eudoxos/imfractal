@@ -25,11 +25,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 from random import randrange,randint
 from math import log
 from scipy import ndimage
-import Image
+from PIL import Image
 import numpy as np
 import sys
 import os
@@ -48,7 +48,7 @@ class Sandbox (Algorithm):
         self.cant = c
 
     def setDef(self,x,y):
-        print "eee"
+        print("eee")
         self.total = 10*10      # number of pixels for averaging
         self.P = 40             # window
         self.v = x
@@ -79,8 +79,8 @@ class Sandbox (Algorithm):
         if(which == 'img'):
             intImg[0][0] = img.getpixel((0,0))
             
-            arrNx = range(1,Nx)
-            arrNy = range(1,Ny)
+            arrNx = list(range(1,Nx))
+            arrNy = list(range(1,Ny))
             for h in arrNx:
                 intImg[h][0] = intImg[h-1][0] + img.getpixel((h,0))
             
@@ -93,8 +93,8 @@ class Sandbox (Algorithm):
         else:
             intImg[0][0] = img[0][0]
             
-            arrNx = range(1,Nx)
-            arrNy = range(1,Ny)
+            arrNx = list(range(1,Nx))
+            arrNy = list(range(1,Ny))
             for h in arrNx:
                 intImg[h][0] = intImg[h-1][0] + img[h][0]
             
@@ -115,8 +115,8 @@ class Sandbox (Algorithm):
         
         intImg = self.sat(img,Nx,Ny,'img')
             
-        arrNx = range(Nx)
-        arrNy = range(Ny)
+        arrNx = list(range(Nx))
+        arrNy = list(range(Ny))
 
         vent = int(self.v)
         for i in arrNx:
@@ -185,10 +185,10 @@ class Sandbox (Algorithm):
                 # how many points in the box. M(R) in the literature
                 c[i+1][h-1] = self.count(x-(h),y-(h),x+(h),y+(h),intImg)
 
-        down = range(1,self.P+1)
+        down = list(range(1,self.P+1))
         # Generalized Multifractal Dimentions 
         s = [0 for i in range(2*self.cant-2)]
-        l = range(-self.cant+1,0)+  range(1,self.cant)
+        l = list(range(-self.cant+1,0))+  list(range(1,self.cant))
         j = 0
         for i in l:
             s[j] = self.Dq(c,i,L,m0,down)
@@ -211,9 +211,9 @@ class Sandbox (Algorithm):
             for i in range(self.total):
                 c[0][h-1] = c[0][h-1] + ((c[i+1][h-1]**q)/aux1) # mean of "total" points
 
-        up = map(lambda i: log(i)-aux2-q*log(m0), c[0])
-        up2 = map(lambda i: up[i]/(q*down[i]), range(len(up)))
-        sizes = range(1,self.P+1)
+        up = [log(i)-aux2-q*log(m0) for i in c[0]]
+        up2 = [up[i]/(q*down[i]) for i in range(len(up))]
+        sizes = list(range(1,self.P+1))
 
         (ar,br)=np.polyfit(sizes,up2,1)
         return ar

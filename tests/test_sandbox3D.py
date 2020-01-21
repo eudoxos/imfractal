@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -52,7 +52,7 @@ def do_test():
     arr2 = i.readDicom("/home/rodrigo/dicom")
 
     for h in range(2):
-        print "Computing 3D Cython Sandbox Multifractal Spectrum..."
+        print("Computing 3D Cython Sandbox Multifractal Spectrum...")
         t =  time.clock()
         fds2 = np.vstack((fds2,i.getFDs(filename)))
         t =  time.clock()-t

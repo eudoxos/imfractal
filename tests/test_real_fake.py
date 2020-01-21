@@ -26,7 +26,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 from imfractal import *
-import Image
+from PIL import Image
 import time
 import csv
 import sys
@@ -65,7 +65,7 @@ def do_test():
     
     ins = MFS()
 
-    print 'Training: computing MFS for the bread database...'
+    print('Training: computing MFS for the bread database...')
     ins.setDef(1,20,3,True)
     for i in range(cantTrainB):
         filename = pathbtr+dirListbtr[i]
@@ -90,9 +90,9 @@ def do_test():
 
     labels = np.hstack((labelsbtr,labelsbte,labelsnbtr,labelsnbte))
 
-    print "Testing..."
-    print "1 = Bread"
-    print "2 = Nonbread"
+    print("Testing...")
+    print("1 = Bread")
+    print("2 = Nonbread")
 
     train = np.vstack((breadtrain,nonbreadtrain))
     labels = np.hstack((labelsbtr,labelsnbtr))
@@ -107,13 +107,13 @@ def do_test():
     gtruth = np.hstack((labelsbte,labelsnbte))
     predictionsRF = cfr.predict(test) # test
 
-    print dirListbte
-    print "Random Forest Prediction:"
-    print predictionsRF
-    print "SVM Prediction:"
-    print predictionsSVM
-    print "REAL: "
-    print gtruth
+    print(dirListbte)
+    print("Random Forest Prediction:")
+    print(predictionsRF)
+    print("SVM Prediction:")
+    print(predictionsSVM)
+    print("REAL: ")
+    print(gtruth)
 
     x = np.arange(dDFs)
     fsize = 14
@@ -129,8 +129,8 @@ def do_test():
     scoreSVM = (len(gtruth)-sum(abs(gtruth-predictionsSVM)))/float(len(gtruth))
 
     #scores = cross_validation.cross_val_score(cfr, data, labels, cv=4)
-    print "Classification performance (Random Forest classifier): " + str( scoreRF*100 ) + "%"
-    print "Classification performance (Support Vector Machine classifier): " + str( scoreSVM*100 ) + "%"
+    print("Classification performance (Random Forest classifier): " + str( scoreRF*100 ) + "%")
+    print("Classification performance (Support Vector Machine classifier): " + str( scoreSVM*100 ) + "%")
 
 
 

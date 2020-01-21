@@ -1,24 +1,24 @@
 
 def compilecython():
     import os
-    arr = [ "imfractal/imfractal/Algorithm/qs3D", "imfractal/imfractal/Algorithm/qs"]
+    arr = [ "imfractal/Algorithm/qs3D", "imfractal/Algorithm/qs"]
 
     for i in range(len(arr)):
 
         command1 = "cython "+arr[i]+".pyx "
-        command2 = "gcc -c -fPIC -I/usr/include/python2.7/ "+arr[i]+".c"+" -o "+arr[i]+".o"
+        command2 = "gcc -c -fPIC -I/usr/include/python3.6/ "+arr[i]+".c"+" -o "+arr[i]+".o"
         command3 = "gcc -shared "+arr[i]+".o -o "+arr[i]+".so"
 
-        print command1
+        print(command1)
         os.system(command1)
-        print command2
+        print(command2)
         os.system(command2)
-        print command3
+        print(command3)
         os.system(command3)
 
 compilecython()
 
-import Image
+from PIL import Image
 import numpy as np
 import os
 from imfractal import *
@@ -29,7 +29,7 @@ show_figure = False
 
 def distance(a, b):
     if(len(a) != len(b)):
-        print "Warning: vector lengths are different!"
+        print("Warning: vector lengths are different!")
 
     distance = 0.0
     for i in range(len(a)):
@@ -46,7 +46,7 @@ def load_synthetic_volume(mask):
     num_imgs = len(os.listdir('/home/rodrigo/result/'))
 
     arr = np.zeros((num_imgs, im.shape[0], im.shape[1])).astype(np.uint8)
-    
+
 
     for i in range(num_imgs):
         arr[i,:,:] = np.asarray(Image.open('/home/rodrigo/result/porous.tga'+str(i)).convert("L"))
@@ -186,4 +186,3 @@ def compare(real_data):
     plt.savefig('test_comparison.png')
 
     return distance(fds_real, fds_synth), fds_synth, fds_real
-

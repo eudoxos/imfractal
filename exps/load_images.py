@@ -5,12 +5,12 @@ import numpy as np
 
 path = "./"
 
-print "Creating imgs (dat)..."
+print("Creating imgs (dat)...")
 
 command = "r mf_image_gen_rmp3D.R"
 os.system(command)
 
-print "Converting imgs dat -> tif..."
+print("Converting imgs dat -> tif...")
 
 valid_images = [".dat"]
 
@@ -21,7 +21,7 @@ for f in os.listdir(path):
     command = "python convert_img_ascii-tif.py " + os.path.join(path,f)
     os.system(command)
 
-print "tif -> npy..."
+print("tif -> npy...")
 
 imgs = np.zeros((128,128,128))
 path = "./"
@@ -34,7 +34,7 @@ for f in os.listdir(path):
     imgs[i] = np.asarray(Image.open(os.path.join(path,f)).convert("L"))
     i = i+1
 
-print "Deleting imgs (dat) and (tif)..."
+print("Deleting imgs (dat) and (tif)...")
 
 np.save('img3d.npy', imgs)
 

@@ -25,11 +25,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 from random import randrange,randint,seed
 from math import log
 from scipy import ndimage
-import Image
+from PIL import Image
 import numpy as np
 import scipy
 import scipy.stats
@@ -37,7 +37,12 @@ import sys
 import os
 import matplotlib
 import matplotlib.pyplot as plt
-import time, qs3D	
+
+import pyximport
+pyximport.install()
+from imfractal.Algorithm import qs3D
+
+import time
 import dicom
 import os
 
@@ -61,7 +66,7 @@ class CSandbox3D (Algorithm):
         self.param = p
         self.params = params
 
-       
+
     def openData(self, filename):
         return qs3D.volume(self.params, 256, 256)
 
@@ -71,7 +76,7 @@ class CSandbox3D (Algorithm):
 
     def determine_threshold(self, arr):
         # compute histogram of values
-        bins = range(np.min(arr), np.max(arr)+1)
+        bins = list(range(np.min(arr), np.max(arr)+1))
 
         h = np.histogram(arr, bins = bins)
 
@@ -107,7 +112,7 @@ class CSandbox3D (Algorithm):
 
             a_v = arr.cumsum()
 
-            print "Amount of white pixels: ", a_v[len(a_v) - 1]
+            print("Amount of white pixels: ", a_v[len(a_v) - 1])
 
         # debug - to see the spongious structure
         # plt.imshow((arr[:,:,50]), cmap=plt.gray())
@@ -139,7 +144,7 @@ class CSandbox3D (Algorithm):
         # The array is sized based on 'ConstPixelDims'
         ArrayDicom = numpy.zeros(ConstPixelDims, dtype=RefDs.pixel_array.dtype)
 
-        print "Loading Dicom..."
+        print("Loading Dicom...")
         # loop through all the DICOM files
         for filenameDCM in lstFilesDCM:
             # read the file
@@ -150,7 +155,7 @@ class CSandbox3D (Algorithm):
         ArrayDicom= numpy.logical_and(ArrayDicom > 3000, ArrayDicom < 6000)
         plt.imshow((ArrayDicom[:,:,220]), cmap=plt.gray())
         plt.show()
-        print "loaded!"
+        print("loaded!")
 
 
         return ArrayDicom
@@ -180,7 +185,7 @@ class CSandbox3D (Algorithm):
         while Nx < 2*P or Ny < 2*P or Nz < 2*P:
             P /= 2
             self.P = P
-            print "P too large. New P: ",  P
+            print("P too large. New P: ",  P)
 
         L = float(Nx*Ny*Nz)
 
@@ -206,11 +211,11 @@ class CSandbox3D (Algorithm):
                         white_pixels[h][2] = k
                         h+= 1
 
-        
+
         white_pixels = white_pixels[:h]
         #print "Finished selecting points"
         if len(white_pixels) == 0 :
-            print "EMPTY Volume!!!"
+            print("EMPTY Volume!!!")
             return np.zeros(self.cant_dims, dtype=np.double)
 
         first_point = white_pixels[randint(0, len(white_pixels)-1)]
@@ -240,4 +245,3 @@ class CSandbox3D (Algorithm):
                        self.cant_dims)
 
         return res
-

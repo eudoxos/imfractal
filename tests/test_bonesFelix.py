@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -62,7 +62,7 @@ def do_test():
     vois = 27
 
 
-    print "test"
+    print("test")
     with open("results.txt", "w") as text_file:
         for p in range(len(patients)):
             for k in range(len(scans)):

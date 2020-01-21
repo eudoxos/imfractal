@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -49,7 +49,7 @@ def do_test():
 
     arr = [ "imfractal/Algorithm/qs3D", "imfractal/Algorithm/qs"]
 
-    print "WTF"
+    print("WTF")
 
     for i in range(len(arr)):
 
@@ -57,11 +57,11 @@ def do_test():
         command2 = "gcc -c -fPIC -I/usr/include/python2.7/ "+arr[i]+".c"+" -o "+arr[i]+".o"
         command3 = "gcc -shared "+arr[i]+".o -o "+arr[i]+".so"
 
-        print command1
+        print(command1)
         os.system(command1)
-        print command2
+        print(command2)
         os.system(command2)
-        print command3
+        print(command3)
         os.system(command3)
 
 
@@ -99,7 +99,7 @@ def do_test():
 
         debug = False
         if(debug):
-            print sp
+            print(sp)
 
             plt.plot(spg)
             plt.show()
@@ -127,7 +127,7 @@ def do_test():
 
             r2[r] = 1.0 - sumup / sumdown
 
-        print r2
+        print(r2)
     
 
     exit()

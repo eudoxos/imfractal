@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -81,10 +81,10 @@ def do_test():
                    allvois = np.hstack((allvois,mfss[p,:,j,i]))
                    allmeasures = np.hstack((allmeasures,measures[p,:,j,m]))
 
-                print allvois.shape, allmeasures.shape
+                print(allvois.shape, allmeasures.shape)
                 correlsAll[p,i] = scipy.stats.stats.spearmanr(allvois,allmeasures)[0]
 
-        print correlsAll
+        print(correlsAll)
 
         plt.ylim((-1, 1))
         plt.xlim(x1,x2)
@@ -99,13 +99,13 @@ def do_test():
         plt.legend(loc = 2) # loc 4: bottom, right
         plt.show()
         
-        print correls
+        print(correls)
 
 
         figure(2)
 
         if(False):
-            xticks(x,range(-10,10)) # translate
+            xticks(x,list(range(-10,10))) # translate
             for j in range(vois):
                 plt.ylim((-1, 1))
                 plt.xlim(x1,x2)

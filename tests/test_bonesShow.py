@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -55,15 +55,15 @@ def do_test():
         command2 = "gcc -c -fPIC -I/usr/include/python2.7/ "+arr[i]+".c"+" -o "+arr[i]+".o"
         command3 = "gcc -shared "+arr[i]+".o -o "+arr[i]+".so"
 
-        print command1
+        print(command1)
         os.system(command1)
-        print command2
+        print(command2)
         os.system(command2)
-        print command3
+        print(command3)
         os.system(command3)
 
 
-    print "Creating folder.."
+    print("Creating folder..")
     createFolders(['exps/figs'])
 
     # load array object file

@@ -15,7 +15,7 @@ def openMatlab(typ, filename, threshold = 100, adaptive = False):
 
         a_v = arr.cumsum()
 
-        print "Amount of white pixels: ", a_v[len(a_v) - 1]
+        print("Amount of white pixels: ", a_v[len(a_v) - 1])
 
     # debug - to see the spongious structure
     # plt.imshow((arr[:,:,50]), cmap=plt.gray())
@@ -35,18 +35,18 @@ def get_ltp(data, xct):
             # tilde x_i
             medians[i,ii] = np.median(data[i,ii])
 
-    print xct, xct.shape
+    print(xct, xct.shape)
     slope, intercept, r_value, p_value, std_err = stats.linregress(medians.flatten(), xct.flatten())
-    print "SLOPE: " , slope
+    print("SLOPE: " , slope)
 
     ltp = 0
     for i in range(xct.shape[0]):
         for ii in range(xct.shape[1]):
             ltp += (xct[i,ii] - (slope * (medians[i,ii]) + intercept))**2
 
-    print xct
+    print(xct)
 
-    print ltp, ((xct.shape[0]*xct.shape[1] - 2) * (np.max(xct) - np.min(xct))**2)
+    print(ltp, ((xct.shape[0]*xct.shape[1] - 2) * (np.max(xct) - np.min(xct))**2))
     ltp = ltp/((xct.shape[0]*xct.shape[1] - 2) * (np.max(xct) - np.min(xct))**2)
     ltp = np.sqrt(ltp)
 
@@ -114,28 +114,28 @@ def stp():
     stp_kt3 = get_stp(kt3)
     stp_kt4 = get_stp(kt4)
 
-    print "STP - SK0 : ", stp_sk0
-    print "STP - SK1 : ", stp_sk1
-    print "STP - SK2 : ", stp_sk2
-    print "STP - SK3 : ", stp_sk3
-    print "STP - SK4 : ", stp_sk4
-    print "STP - KT0 : ", stp_kt0
-    print "STP - KT1 : ", stp_kt1
-    print "STP - KT2 : ", stp_kt2
-    print "STP - KT3 : ", stp_kt3
-    print "STP - KT4 : ", stp_kt4
+    print("STP - SK0 : ", stp_sk0)
+    print("STP - SK1 : ", stp_sk1)
+    print("STP - SK2 : ", stp_sk2)
+    print("STP - SK3 : ", stp_sk3)
+    print("STP - SK4 : ", stp_sk4)
+    print("STP - KT0 : ", stp_kt0)
+    print("STP - KT1 : ", stp_kt1)
+    print("STP - KT2 : ", stp_kt2)
+    print("STP - KT3 : ", stp_kt3)
+    print("STP - KT4 : ", stp_kt4)
 
-    print "STP - BMD: ", get_stp(bmd_npy)
-    print "STP - BMC: ", get_stp(bmc_npy)
-    print "STP - TMD: ", get_stp(tmd_npy)
-    print "STP - TMC: ", get_stp(tmc_npy)
-    print "STP - TV: ", get_stp(tv_npy)
-    print "STP - BV/TV: ", get_stp(bvtv_npy)
-    print "STP - BS/BV: ", get_stp(bsbv_npy)
-    print "STP - Tb.N: ", get_stp(tbN_npy)
-    print "STP - Tb.Th: ", get_stp(tbth_npy)
-    print "STP - Tb.Sp: ", get_stp(tbsp_npy)
-    print "STP - MIL: ", get_stp(mil_npy)
+    print("STP - BMD: ", get_stp(bmd_npy))
+    print("STP - BMC: ", get_stp(bmc_npy))
+    print("STP - TMD: ", get_stp(tmd_npy))
+    print("STP - TMC: ", get_stp(tmc_npy))
+    print("STP - TV: ", get_stp(tv_npy))
+    print("STP - BV/TV: ", get_stp(bvtv_npy))
+    print("STP - BS/BV: ", get_stp(bsbv_npy))
+    print("STP - Tb.N: ", get_stp(tbN_npy))
+    print("STP - Tb.Th: ", get_stp(tbth_npy))
+    print("STP - Tb.Sp: ", get_stp(tbsp_npy))
+    print("STP - MIL: ", get_stp(mil_npy))
 
 
 
@@ -209,27 +209,27 @@ def ltp():
     ltp_bsbv = get_ltp(bsbv, bsbv_xct)
 
 
-    print "LTP - SK0 : ", ltp_sk0
-    print "LTP - SK1 : ", ltp_sk1
-    print "LTP - SK2 : ", ltp_sk0
-    print "LTP - SK3 : ", ltp_sk1
-    print "LTP - SK4 : ", ltp_sk4
-    print "LTP - KT0 : ", ltp_kt0
-    print "LTP - KT1 : ", ltp_kt1
-    print "LTP - KT2 : ", ltp_kt2
-    print "LTP - KT3 : ", ltp_kt3
-    print "LTP - KT4 : ", ltp_kt4
-    print "LTP - BMD : ", ltp_bmd
-    print "LTP - BMC : ", ltp_bmc
-    print "LTP - TMD : ", ltp_tmd
-    print "LTP - TMC : ", ltp_tmc
-    print "LTP - TV : ", ltp_tv
-    print "LTP - BV/TV : ", ltp_bvtv
-    print "LTP - Tb.TH : ", ltp_tbth
-    print "LTP - Tb.SP : ", ltp_tbsp
-    print "LTP - Tb.N : ", ltp_tbN
-    print "LTP - MIL : ", ltp_mil
-    print "LTP - BS/BV : ", ltp_bsbv
+    print("LTP - SK0 : ", ltp_sk0)
+    print("LTP - SK1 : ", ltp_sk1)
+    print("LTP - SK2 : ", ltp_sk0)
+    print("LTP - SK3 : ", ltp_sk1)
+    print("LTP - SK4 : ", ltp_sk4)
+    print("LTP - KT0 : ", ltp_kt0)
+    print("LTP - KT1 : ", ltp_kt1)
+    print("LTP - KT2 : ", ltp_kt2)
+    print("LTP - KT3 : ", ltp_kt3)
+    print("LTP - KT4 : ", ltp_kt4)
+    print("LTP - BMD : ", ltp_bmd)
+    print("LTP - BMC : ", ltp_bmc)
+    print("LTP - TMD : ", ltp_tmd)
+    print("LTP - TMC : ", ltp_tmc)
+    print("LTP - TV : ", ltp_tv)
+    print("LTP - BV/TV : ", ltp_bvtv)
+    print("LTP - Tb.TH : ", ltp_tbth)
+    print("LTP - Tb.SP : ", ltp_tbsp)
+    print("LTP - Tb.N : ", ltp_tbN)
+    print("LTP - MIL : ", ltp_mil)
+    print("LTP - BS/BV : ", ltp_bsbv)
 
 def precision_and_accuracy():
     mat_dirs = '/home/rodrigo/members.imaglabs.org/felix.thomsen/VertebraPhantom/normalized(MSC)/mats/'
@@ -257,14 +257,14 @@ def precision_and_accuracy():
             if j < 5:
                 filename_slices = mat_dirs + patients[i] + '_' + scans_stp[j] + '_120Slices.mat'
                 filename_masks = mat_dirs + patients[i] + '_' + scans_stp[j] + '_120Mask.mat'
-                print filename_slices
-                print filename_masks
+                print(filename_slices)
+                print(filename_masks)
 
                 slices = openMatlab('S', filename_slices)
                 masks = openMatlab('M', filename_masks)
 
                 for k in range(1,vois+1):
-                    print "k: ", k
+                    print("k: ", k)
                     # voi k
                     voi_k = slices * (masks == k)
                     #np.save(patient + scan + '_voi_k_' + str(k) , voi_k)
@@ -300,14 +300,14 @@ def precision_and_accuracy():
             else:
                 filename_slices = mat_dirs + patients[i] + '_' + scans_stp[j] + '_120_140Slices.mat'
                 filename_masks = mat_dirs + patients[i] + '_' + scans_stp[j] + '_120_140Mask.mat'
-                print filename_slices
-                print filename_masks
+                print(filename_slices)
+                print(filename_masks)
 
                 slices = openMatlab('S', filename_slices)
                 masks = openMatlab('M', filename_masks)
 
                 for k in range(1,vois+1):
-                    print "k: ", k
+                    print("k: ", k)
                     # voi k
                     voi_k = slices * (masks == k)
 
@@ -367,14 +367,14 @@ def compute_xct():
     for i in range(len(patients)):
         filename_slices = mat_dirs + patients[i] + '_XCT' + 'Slices.mat'
         filename_masks = mat_dirs + patients[i] + '_XCT' + 'Mask.mat'
-        print filename_slices
-        print filename_masks
+        print(filename_slices)
+        print(filename_masks)
 
         slices = openMatlab('S', filename_slices)
         masks = openMatlab('M', filename_masks)
 
         for k in range(1,vois+1):
-            print "xct: k: ", k
+            print("xct: k: ", k)
             voi_k = slices * (masks == k)
 
             aux = Stats_MFS_Pyramid_3D()

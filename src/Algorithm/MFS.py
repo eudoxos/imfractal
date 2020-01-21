@@ -25,8 +25,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
-import Image
+from .Algorithm import *
+from PIL import Image
 import numpy as np
 from math import exp, log10
 import scipy.ndimage.filters as sf
@@ -68,10 +68,10 @@ class MFS (Algorithm):
         y, x = np.mgrid[-(m-1)/2:(m-1)/2+1, -(n-1)/2:(n-1)/2+1]
 
         b = 2*(sigma**2)
-        x2 = map(lambda i: map( lambda j: j**2,i), x)
-        y2 = map(lambda i: map( lambda j: j**2,i), y)
+        x2 = [[j**2 for j in i] for i in x]
+        y2 = [[j**2 for j in i] for i in y]
         g = np.sum([x2,y2],axis=0).astype(np.float32)
-        g = np.array(map(lambda i: map( lambda j: exp(-j/b),i), g)).astype(np.float32)
+        g = np.array([[exp(-j/b) for j in i] for i in g]).astype(np.float32)
         return g / g.sum()
 
 
@@ -101,9 +101,9 @@ class MFS (Algorithm):
         ### by solving least squares for D in  the equation  
         ### log10(bw) = D*log10(c) + b 
         r = 1.0/max(im.shape)
-        c = np.dot(range(1,self.ind_num+1),r)
+        c = np.dot(list(range(1,self.ind_num+1)),r)
 
-        c = map(lambda i: log10(i), c)
+        c = [log10(i) for i in c]
         bw = np.zeros((self.ind_num,im.shape[0],im.shape[1])).astype(np.float32)
 
         bw[0] = im + 1

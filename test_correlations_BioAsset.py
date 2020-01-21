@@ -35,6 +35,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 if __name__ == "__main__":
-    import tests.test_all_correlations_BioAsset as tall
+    from . import tests.test_all_correlations_BioAsset as tall
     tall.do_test()
 

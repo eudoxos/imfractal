@@ -3,7 +3,7 @@ from os.path import isfile, join
 import numpy as np
 import sys, getopt
 import csv
-from imfractal import *
+from .imfractal import *
 
 
 test_usage_str = sys.argv[0] + " -p <path_mats>"
@@ -20,21 +20,21 @@ path_mats = ''
 try:
     opts, args = getopt.getopt(argv, "h:p:", ["path_mats="])
 except getopt.GetoptError:
-    print test_usage_str
+    print(test_usage_str)
     sys.exit(2)
 
 for opt, arg in opts:
     if opt == '-h':
-        print test_usage_str
+        print(test_usage_str)
         sys.exit()
     elif opt in ("-p", "--path_mats"):
         path_mats = arg
 
-print path_mats
+print(path_mats)
 
 if path_mats == '':
-    print "Please specify path to matlab matrices with option -p"
-    print test_usage_str
+    print("Please specify path to matlab matrices with option -p")
+    print(test_usage_str)
     exit()
 
 slice_files = [f for f in listdir(path_mats) if isfile(join(path_mats, f)) and "Slices" in f]
@@ -45,10 +45,10 @@ slice_files.sort()  # = sort(slice_files)
 # one-to-one with slice_files
 meta = np.load(data_path + 'bioAsset_meta.npy')
 meta_adaptive = np.load(data_path + 'bioAsset_meta_adaptive.npy')
-print "Meta adaptive shape: ", meta_adaptive.shape
+print("Meta adaptive shape: ", meta_adaptive.shape)
 
 
-print data_path + BASE_NAME + '.npy'
+print(data_path + BASE_NAME + '.npy')
 # subset of slice_files
 mfs_data = np.load(data_path + BASE_NAME + '.npy')
 
@@ -64,7 +64,7 @@ writer = csv.writer(f)
 
 line = ('Filename',)
 
-line += tuple(map(lambda x: "MFS " + str(x), range(mfs_data.shape[1])))
+line += tuple(["MFS " + str(x) for x in range(mfs_data.shape[1])])
 
 writer.writerow(line)
 
@@ -74,7 +74,7 @@ for slice_filename in slice_files:
     [meta_patient_scan, _] = meta[i][meta_pos_filename].split('.')
 
     if patient_scan == meta_patient_scan:
-        print patient_scan, i, idx
+        print(patient_scan, i, idx)
         data_i = np.array(mfs_data[i])
 
         import math
@@ -97,6 +97,6 @@ for slice_filename in slice_files:
 
         i += 1
 
-print "Shape: ", result.shape
-print "Saving ", data_path + BASE_NAME + '_and_standard_params.npy'
+print("Shape: ", result.shape)
+print("Saving ", data_path + BASE_NAME + '_and_standard_params.npy')
 np.save(data_path + BASE_NAME + '_and_standard_params.npy', result)

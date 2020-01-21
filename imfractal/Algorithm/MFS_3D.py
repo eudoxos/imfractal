@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 import numpy as np
 from math import log10
 import scipy.signal
@@ -73,11 +73,11 @@ class MFS_3D (Algorithm):
 
         b = 2*(sigma**2)
         square = lambda i : i**2
-        fm = lambda i: map(square, i)
+        fm = lambda i: list(map(square, i))
 
-        x2 = map(fm, x)
-        y2 = map(fm, y)
-        z2 = map(fm, z)
+        x2 = list(map(fm, x))
+        y2 = list(map(fm, y))
+        z2 = list(map(fm, z))
 
         g = np.sum([x2, y2, z2], axis=0).astype(np.float32)
         g = np.exp(g).astype(np.float32)
@@ -85,7 +85,7 @@ class MFS_3D (Algorithm):
 
     def determine_threshold(self, arr):
         # compute histogram of values
-        bins = range(np.min(arr), np.max(arr) + 1)
+        bins = list(range(np.min(arr), np.max(arr) + 1))
 
         h = np.histogram(arr, bins=bins)
 
@@ -126,7 +126,7 @@ class MFS_3D (Algorithm):
 
             a_v = arr.cumsum()
 
-            print "Amount of white pixels: ", a_v[len(a_v) - 1]
+            print("Amount of white pixels: ", a_v[len(a_v) - 1])
 
         # debug - to see the spongious structure
         # plt.imshow((arr[:,:,50]), cmap=plt.gray())
@@ -181,9 +181,9 @@ class MFS_3D (Algorithm):
 
         laplacian_kernel = np.load('exps/data/laplacian_kernel.npy')
 
-        print "SHAPES: !"
-        print laplacian_kernel.shape
-        print data.shape
+        print("SHAPES: !")
+        print(laplacian_kernel.shape)
+        print(data.shape)
 
         a = scipy.signal.convolve(data, laplacian_kernel, mode="full")
         Nx, Ny, Nz = a.shape
@@ -214,7 +214,7 @@ class MFS_3D (Algorithm):
                 data = self.gradient(data)
             else:
                 if self.params['laplacian'] == True:
-                    print "laplacian!"
+                    print("laplacian!")
                     data = self.laplacian(data)
 
         #Using [0..255] to denote the intensity profile of the image
@@ -232,16 +232,16 @@ class MFS_3D (Algorithm):
         #######################
 
         #DEBUG
-        print data.max(), data.min(), data.sum()
+        print(data.max(), data.min(), data.sum())
 
         ### Estimating density function of the volume
         ### by solving least squares for D in  the equation  
         ### log10(bw) = D*log10(c) + b 
         r = 1.0 / max(data.shape)
-        c = np.dot(range(1, self.ind_num+1), r)
+        c = np.dot(list(range(1, self.ind_num+1)), r)
 
 
-        c = map(lambda i: log10(i), c)
+        c = [log10(i) for i in c]
 
         bw = np.zeros((self.ind_num, data.shape[0], data.shape[1], data.shape[2])).astype(np.float32)
 

@@ -28,7 +28,7 @@ if(False):
     import os
     arr = [ "imfractal/Algorithm/qs3D", "imfractal/Algorithm/qs"]
 
-    print "WTF"
+    print("WTF")
 
     for i in range(len(arr)):
 
@@ -36,11 +36,11 @@ if(False):
         command2 = "gcc -c -fPIC -I/usr/include/python2.7/ "+arr[i]+".c"+" -o "+arr[i]+".o"
         command3 = "gcc -shared "+arr[i]+".o -o "+arr[i]+".so"
 
-        print command1
+        print(command1)
         os.system(command1)
-        print command2
+        print(command2)
         os.system(command2)
-        print command3
+        print(command3)
         os.system(command3)
     exit()
 
@@ -49,30 +49,30 @@ if(False):
 #    print "Error: the module tests/tests_MFS is missing"
 
 if(False):
-    import tests.test_bones as ts
+    from . import tests.test_bones as ts
     ts.do_test()
     exit()
 
-    import tests.test_bonesFelix as ts
+    from . import tests.test_bonesFelix as ts
     ts.do_test()
 
     #exit()
 
 if(False):
-    import tests.test_bonesR2 as ts
+    from . import tests.test_bonesR2 as ts
     ts.do_test()
 
-    import tests.test_bonesBVTV as tb
+    from . import tests.test_bonesBVTV as tb
     tb.do_test()
 
 #import tests.test_bonesBVTVspearman as tb
 #tb.do_test()
 
-import tests.test_MFS as tmfs
+from . import tests.test_MFS as tmfs
 tmfs.do_test()
 exit()
 
-import tests.test_bones_BioAsset as tbba
+from . import tests.test_bones_BioAsset as tbba
 tbba.do_test("/home/rodrigo/members.imaglabs.org/felix.thomsen/Rodrigo/BioAsset/mats/")
 
 #import tests.test_boneMeasuresSpearman as tb
@@ -80,7 +80,7 @@ tbba.do_test("/home/rodrigo/members.imaglabs.org/felix.thomsen/Rodrigo/BioAsset/
 
 exit()
 
-import tests.testcomparison as tcomp
+from . import tests.testcomparison as tcomp
 tcomp.do_test()
 
 #import tests.test_real_fake as trealfake

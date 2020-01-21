@@ -1,5 +1,5 @@
 import numpy as np
-from imfractal import *
+from .imfractal import *
 from numpy import recfromcsv
 import scipy
 import math
@@ -53,7 +53,7 @@ def ribbon2(spectra, alpha, title):
     y_raw = spectra[:, 0]
     sample_size = spectra.shape[1]
     for i in range(0, sample_size):
-        print i
+        print(i)
         z_raw = spectra[:, i]
         x = []
         y = []
@@ -85,9 +85,9 @@ def ribbon3(spectra, alpha):
     ax=fig.gca(projection='3d')
     for i in range(0,spectra.shape[1]):
         y=spectra[:,i]
-        x=sorted(range(1,len(y)+1)*2)
+        x=sorted(list(range(1,len(y)+1))*2)
         a=[i,i+1]*len(y)
-        b=list(itertools.chain(*zip(y,y)))
+        b=list(itertools.chain(*list(zip(y,y))))
         xi=np.linspace(min(x),max(x))
         yi=np.linspace(min(a),max(a))
         X,Y=np.meshgrid(xi/(len(x)*0.5),yi)
@@ -138,7 +138,7 @@ def openMatlab(typ, filename, threshold = 100, adaptive = False):
 
         a_v = arr.cumsum()
 
-        print "Amount of white pixels: ", a_v[len(a_v) - 1]
+        print("Amount of white pixels: ", a_v[len(a_v) - 1])
 
     # debug - to see the spongious structure
     # plt.imshow((arr[:,:,50]), cmap=plt.gray())
@@ -209,7 +209,7 @@ def normalize(vector):
     if np.std(vector) != 0:
         return (vector - np.mean(vector))/ np.std(vector)
     else:
-        print "std equals 0"
+        print("std equals 0")
         return vector
 
 def compute_robust_r2(y, X, total_model):
@@ -261,7 +261,7 @@ def compute_best_aicc(X, fexp):
     #print X.shape
 
     if X2.shape == X.shape:
-        print "Error in add_constant!"
+        print("Error in add_constant!")
         exit()
 
     # one dimension
@@ -297,7 +297,7 @@ def compute_best_aicc(X, fexp):
         first_c = np.any(np.array(X2[:,0]).astype(np.int32) ==
                           np.ones(X2.shape[0]).astype(np.int32))
         if not(np.any(first_c)):
-            print "NOT!!"
+            print("NOT!!")
             continue
         #print ""
         #print i
@@ -325,7 +325,7 @@ def compute_best_aicc(X, fexp):
             first_c = np.any(np.array(X2[:, 0]).astype(np.int32) ==
                              np.ones(X2.shape[0]).astype(np.int32))
             if not (np.any(first_c)):
-                print "NOT!!"
+                print("NOT!!")
                 continue
 
             model = sm.OLS(fexp, Xij)
@@ -354,7 +354,7 @@ def compute_best_aicc(X, fexp):
                 first_c = np.any(np.array(X2[:, 0]).astype(np.int32) ==
                                  np.ones(X2.shape[0]).astype(np.int32))
                 if not (np.any(first_c)):
-                    print "NOT!!"
+                    print("NOT!!")
                     continue
 
 
@@ -393,9 +393,9 @@ def compute_linear_model(mfs, measures, output_file="standarized.csv"):
     fexp = measures[:, measures.shape[1]-1]
 
 
-    print "BMD: ", bmd.shape
+    print("BMD: ", bmd.shape)
     #print "FEXP: ", fexp
-    print "MFS; ", mfs.shape
+    print("MFS; ", mfs.shape)
 
     #PCA
     #from sklearn.decomposition import PCA
@@ -575,7 +575,7 @@ plt.xlim(x1,x2)
 plt.ylabel('$D_{q}$',fontsize=fsize)
 plt.xlabel('Generalised dimension',fontsize=fsize)
 
-print len(x), len(mfs1_2)
+print(len(x), len(mfs1_2))
 
 plt.plot(x, mfs1_2, '*-', linewidth=2.0)
 plt.show()
@@ -585,7 +585,7 @@ plt.show()
 xt = np.arange(1,20,2)
 alpha = [   6.,   19.,   32.,   45.,   58.,   71.,   84.,   97.,  110.,  123. , 136. , 149.,
 162.,  175.,  188.,  201. , 214. , 227. , 240.  ,253.]
-alpha = map(lambda i:"%.2f" % float(i/255.), alpha)
+alpha = ["%.2f" % float(i/255.) for i in alpha]
 
 alpha_orig = alpha
 alpha = alpha[0:len(alpha):2]
@@ -605,7 +605,7 @@ plt.xlabel(r'$\alpha$', fontsize=fsize)
 
 x = np.arange(len(mfs1_2))
 plt.xticks(xt,alpha) # translate
-plt.plot(map(lambda i: i+1, x), mfs1_2, '*-', linewidth=2.0)
+plt.plot([i+1 for i in x], mfs1_2, '*-', linewidth=2.0)
 plt.show()
 
 
@@ -687,7 +687,7 @@ bmd17 = np.load('exps/data/bmd17.npy')
 fexp = np.load('exps/data/fexp.npy')
 sk0 = stats_mfs_pyramid_gradient[:, 36:37]
 #sk0 = np.load('exps/data/sk0.npy')
-print sk0.shape
+print(sk0.shape)
 sk0_17 = sk0[indexes]
 
 if(True):
@@ -718,7 +718,7 @@ if(True):
     from scipy import stats
     matplotlib.rc('text', usetex=True) 
 
-    print "BMD17.SHAPE ", bmd17.shape
+    print("BMD17.SHAPE ", bmd17.shape)
     # 2D Scatters
     plt.xlabel('BMD')
     plt.ylabel(r'F$_{Failure}$')
@@ -733,7 +733,7 @@ if(True):
 
     #
     sk0_17 = sk0_17.reshape((17,))
-    print "SK017.SHAPE ", sk0_17.shape
+    print("SK017.SHAPE ", sk0_17.shape)
     plt.xlabel(r"SK$_0$")
     plt.ylabel(r'F$_{Failure}$')
     plt.scatter(sk0_17, fexp)
@@ -879,39 +879,39 @@ sk0 = stats_mfs_pyramid_gradient[:, 36:37]
 if(True):
 
     np.set_printoptions(suppress=True)
-    print measures_matrix[0]
+    print(measures_matrix[0])
 
-    print "[0, 7, 5, 6, 2, 4]: BMD MIL Tb.Th	Tb.Sp BV/TV Tb.N"
+    print("[0, 7, 5, 6, 2, 4]: BMD MIL Tb.Th	Tb.Sp BV/TV Tb.N")
 
     idxs = [0, 7, 5, 6, 2, 4]
     measures_matrix_2 = measures_matrix[:, idxs]
 
     np.set_printoptions(suppress=True)
-    print measures_matrix_2
+    print(measures_matrix_2)
 
-    print "Standard Measures intra-correlations:"
-    print "BMD MIL Tb.Th	Tb.Sp BV/TV Tb.N"
+    print("Standard Measures intra-correlations:")
+    print("BMD MIL Tb.Th	Tb.Sp BV/TV Tb.N")
     c1, c2, c, pv = compute_correlations(measures_matrix_2, measures_matrix_2)
 
     #np.set_printoptions(suppress=True)
-    print "CORRS: ", c
-    print "PVALS: ", pv
+    print("CORRS: ", c)
+    print("PVALS: ", pv)
 
-    print "Multifractal Skewness - Standard Measures : correlations:"
+    print("Multifractal Skewness - Standard Measures : correlations:")
     skew_levels = stats_mfs_pyramid_gradient[:, [6,36,46]]
     c1, c2, c, pv = compute_correlations(measures_matrix_2, skew_levels)
 
     np.set_printoptions(suppress=True)
-    print c
-    print "PVALS: ", pv
+    print(c)
+    print("PVALS: ", pv)
 
-    print "Multifractal Skewness intra-correlations:"
+    print("Multifractal Skewness intra-correlations:")
     skew_levels = stats_mfs_pyramid_gradient[:, [6,36,46]]
     c1, c2, c, pv = compute_correlations(skew_levels, skew_levels)
 
     np.set_printoptions(suppress=True)
-    print c
-    print "PVALS: ", pv
+    print(c)
+    print("PVALS: ", pv)
 
     fexp = np.array(measures_matrix[:, measures_matrix.shape[1] - 1]).reshape(measures_matrix.shape[0],1)
     rest = np.hstack((skew_levels, measures_matrix))
@@ -919,8 +919,8 @@ if(True):
     rest_subset = compute_subset(measures_matrix, rest, 0, rest.shape[1])
     fexp_subset = compute_subset(measures_matrix, fexp, 0, fexp.shape[1])
 
-    print "FEXP", fexp
-    print fexp.shape
+    print("FEXP", fexp)
+    print(fexp.shape)
 
     indexes = []
     for i in range(len(fexp)):
@@ -928,15 +928,15 @@ if(True):
 
     indexes = np.array(indexes).astype(np.uint32)
 
-    print indexes
+    print(indexes)
 
-    print "Fexp against all correlations:"
+    print("Fexp against all correlations:")
     skew_levels = stats_mfs_pyramid_gradient[:, [6,36,46]]
     c1, c2, c, pv = compute_correlations(fexp_subset*1000, rest_subset)
 
     np.set_printoptions(suppress=True)
-    print c
-    print "PVALS: ", pv
+    print(c)
+    print("PVALS: ", pv)
 
 exit()
 #print "Std Measures: ", compute_correlations(measures_matrix, measures_matrix)
@@ -977,7 +977,7 @@ for i in range(len(method_array)):
     #plt.show()
     #exit()
 
-    print str_method[i],  " #", method_array[i].shape[1]
+    print(str_method[i],  " #", method_array[i].shape[1])
 
 
     #np.savetxt('pyramid.csv', mfs_subset, delimiter=",")
@@ -1016,8 +1016,8 @@ for i in range(len(method_array)):
 
 
 
-    print "AICC     -  Adj R^2 - Rob. R^2 -   DIMS            - p-value   -   RMSE  - Rob. RMSE "
-    print aic_s, ' |',  r2,   '  |',  rob_r2,   '  | bmd   ', "           | --------- | ", rmsee,  " | ", rob_rmse
-    print aicc1, ' |',  r2_1, '  |',  rob_r2_1, '  | bmd + ', dims_1, "         |", p1, "| ", rmse1,  "| ", rob_rmse1
-    print aicc2, ' |',  r2_2, '  |',  rob_r2_2, '  | bmd + ', dims_2, "    |", p2, "| ", rmse2,  "| ", rob_rmse2
-    print aicc3, ' |',  r2_3, '  |',  rob_r2_3, '  | bmd + ', dims_3, "|", p3, "| ", rmse3,  "| ", rob_rmse3
+    print("AICC     -  Adj R^2 - Rob. R^2 -   DIMS            - p-value   -   RMSE  - Rob. RMSE ")
+    print(aic_s, ' |',  r2,   '  |',  rob_r2,   '  | bmd   ', "           | --------- | ", rmsee,  " | ", rob_rmse)
+    print(aicc1, ' |',  r2_1, '  |',  rob_r2_1, '  | bmd + ', dims_1, "         |", p1, "| ", rmse1,  "| ", rob_rmse1)
+    print(aicc2, ' |',  r2_2, '  |',  rob_r2_2, '  | bmd + ', dims_2, "    |", p2, "| ", rmse2,  "| ", rob_rmse2)
+    print(aicc3, ' |',  r2_3, '  |',  rob_r2_3, '  | bmd + ', dims_3, "|", p3, "| ", rmse3,  "| ", rob_rmse3)

@@ -44,12 +44,12 @@ def do_test():
     filename = 'images/baguette2.tif'#fractal20Bread.png'
     i = MFS()
     i.setDef(1,20,3)
-    print "Calculating MFS Multifractal Spectrum..."
+    print("Calculating MFS Multifractal Spectrum...")
     t =  time.clock()
     fds3 = i.getFDs(filename)
     t =  time.clock()-t
-    print "Time MFS: ", t
-    print fds3
+    print("Time MFS: ", t)
+    print(fds3)
 
     i = Singularity(20)
 
@@ -63,10 +63,10 @@ def do_test():
     i = Sandbox(14)
     i.setDef(40,1.15, True)
 
-    print "Calculating Sandbox Multifractal Spectrum..."
+    print("Calculating Sandbox Multifractal Spectrum...")
     t =  time.clock()
     fds2 = i.getFDs(filename)
     t =  time.clock()-t
-    print "Time Sandbox: ", t
-    print fds2
+    print("Time Sandbox: ", t)
+    print(fds2)
 

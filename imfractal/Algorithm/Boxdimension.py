@@ -25,14 +25,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 from random import randrange,randint
 from math import log
 from scipy import ndimage
 #from pylab import plot, title, show , legend
 import matplotlib
 from matplotlib import pyplot as plt
-import Image
+from PIL import Image
 import numpy as np
 import sys
 import os
@@ -79,10 +79,10 @@ class Boxdimension (Algorithm):
         if(which == 'img'):
             intImg[0,0] = img[0,0]
             
-            arrNx = range(1,Nx)
-            arrNy = range(1,Ny)
+            arrNx = list(range(1,Nx))
+            arrNy = list(range(1,Ny))
             for h in arrNx:
-                print img[h,0]
+                print(img[h,0])
                 intImg[h,0] = intImg[h-1,0] + img[h,0]
             
             for w in arrNy:
@@ -94,8 +94,8 @@ class Boxdimension (Algorithm):
         else:
             intImg[0,0] = img[0,0]
             
-            arrNx = range(1,Nx)
-            arrNy = range(1,Ny)
+            arrNx = list(range(1,Nx))
+            arrNy = list(range(1,Ny))
             for h in arrNx:
                 intImg[h,0] = intImg[h-1,0] + img[h,0]
             
@@ -195,11 +195,11 @@ class Boxdimension (Algorithm):
             for c1 in range(cant): # promedio de casos
                 posx = np.random.randint(1,sx)
                 posy = np.random.randint(1,sy)
-                print "POSS:", posx, posy
+                print("POSS:", posx, posy)
                 temp = self.boxCount(e2,posx,posy,numBlocks,sx,sy,Nx,Ny)
                 suma+=temp
 
-                print "Proportion: ", temp, numBlocks*numBlocks
+                print("Proportion: ", temp, numBlocks*numBlocks)
             boxc = np.floor(suma/cant)
 
             if(boxc > 0):
@@ -209,8 +209,8 @@ class Boxdimension (Algorithm):
         
         x = np.log(delta)
         deltaA = np.vstack([x, np.ones(len(x))]).T
-        print "delta:", x
-        print "N:", np.log(N)
+        print("delta:", x)
+        print("N:", np.log(N))
         m = np.linalg.lstsq(deltaA,np.log(N))
 
         fsize = 26
@@ -218,8 +218,8 @@ class Boxdimension (Algorithm):
         plt.xlabel('$log(1/\epsilon)$',fontsize=fsize)
         a = round(np.float32(str(m[0][0])),2)
         b = round(np.float32(str(m[1][0])),2)
-        print np.array(x).shape
-        print np.array(N).shape
+        print(np.array(x).shape)
+        print(np.array(N).shape)
         plt.plot(np.array(x),m[0][0]*np.array(x)+m[0][1],'r-',  label="Linear fit\nSlope (Box Dimension) = {0}\nR = {1}".format(a,np.float32(1.0)-b),linewidth=2.0)
 
         plt.plot(np.array(x),np.log(N),'bo',  label='Data')

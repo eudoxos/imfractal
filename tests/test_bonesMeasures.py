@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -49,8 +49,8 @@ def readBVTV(filename):
         for line in ins:
             if(i != 0 and i != 1):
                 arr = line.split()
-                print arr
-                print len(arr)
+                print(arr)
+                print(len(arr))
                 exit()
                 #print res.shape, len(arr), i
                 #res[i-2] = arr[4]
@@ -74,7 +74,7 @@ def readBVTV(filename):
             i = i+1
             if(i>=29): break
 
-    print res
+    print(res)
     return res
 
 
@@ -98,8 +98,8 @@ def do_test():
 
             filename = path+i+j+".txt"
 
-            print i,j
-            print filename
+            print(i,j)
+            print(filename)
 
             measures[ii,jj] = readMeasures(filename)
 

@@ -25,11 +25,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 from random import randrange,randint,seed
 from math import log
 from scipy import ndimage
-import Image
+from PIL import Image
 import numpy as np
 import scipy
 import scipy.stats
@@ -37,7 +37,11 @@ import sys
 import os
 import matplotlib
 import matplotlib.pyplot as plt
-import time, qs
+import time
+
+import pyximport
+pyximport.install()
+from imfractal.Algorithm import qs
 
 class CSandbox (Algorithm):
 
@@ -73,11 +77,11 @@ class CSandbox (Algorithm):
     # constructs summed area table
     def sat(self,img,Nx,Ny):
         intImg = np.empty((Nx,Ny))
-            
+
         intImg[0][0] = img[0][0]
-        intImg[1:,0] = intImg[0:-1,0] + img[1:,0]           
+        intImg[1:,0] = intImg[0:-1,0] + img[1:,0]
         intImg[0,1:] = intImg[0,0:-1] + img[0,1:]
-        
+
         for f in range(1,Nx):
             for g in range(1,Ny):
                intImg[f][g] = img[f][g]+intImg[f-1][g]+intImg[f][g-1]-intImg[f-1][g-1]
@@ -86,13 +90,13 @@ class CSandbox (Algorithm):
 
     # white's algorithm
     # local threshold schema
-    def white(self,img,Nx,Ny):             
+    def white(self,img,Nx,Ny):
         im = np.zeros((Nx,Ny))
         intImg = self.sat(np.asarray(img).astype(np.int32),Nx,Ny)
         vent = int(self.v)
         for i in range(Nx):
             for j in range(Ny):
-                if(self.mww(max(0,i-vent),max(0,j-vent),min(Nx-1,i+vent),min(Ny-1,j+vent),intImg) >= img[i,j]*self.b ): 
+                if(self.mww(max(0,i-vent),max(0,j-vent),min(Nx-1,i+vent),min(Ny-1,j+vent),intImg) >= img[i,j]*self.b ):
                     v = img[i,j]
                     if (v > 0):
                         im[i,j] = 255
@@ -117,11 +121,11 @@ class CSandbox (Algorithm):
             gray = np.asarray(gray).T.astype(np.int32)
             t = time.clock()
             gray = self.white(gray,Nx,Ny).T # local thresholding algorithm
-            print "Time white :", time.clock()-t
-        else: 
+            print("Time white :", time.clock()-t)
+        else:
             b = a.getdata()
             if(type(b[0]) is int): a=b
-            else: a = np.array(map (lambda i: i[0], np.array(b))) # argh!
+            else: a = np.array([i[0] for i in np.array(b)]) # argh!
             gray = np.array(a).reshape(b.size[1],b.size[0])
         #plt.imshow(gray, cmap=matplotlib.cm.gray)
         #plt.show()
@@ -133,13 +137,13 @@ class CSandbox (Algorithm):
         m0 = intImg[Nx-1][Ny-1]
 
         if(m0 == 0):
-            print "Empty IMAGE structure!!!"
+            print("Empty IMAGE structure!!!")
             return np.zeros(self.cant*2+1, dtype=np.double )
 
         if(m0 < self.total):
-            print "Warning: structure with less points than expected"
+            print("Warning: structure with less points than expected")
             self.total = m0/2 # FIX ME
-            
+
 
         x = randint(0,Nx-1)
         y = randint(0,Ny-1)
@@ -166,4 +170,3 @@ class CSandbox (Algorithm):
         res = qs.aux(self.P,self.total,Nx,Ny,points,np.array(intImg).astype(np.int32),m0,self.cant)
 
         return res
-

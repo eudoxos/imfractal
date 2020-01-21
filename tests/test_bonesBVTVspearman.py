@@ -25,7 +25,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 from imfractal import *
 
-import Image
+from PIL import Image
 import time
 import matplotlib.pyplot as plt
 from pylab import *
@@ -54,7 +54,7 @@ def readBVTV(filename):
             i = i+1
             if(i>=29): break
 
-    print res
+    print(res)
     return res
 
 
@@ -97,10 +97,10 @@ def do_test():
                allvois = np.hstack((allvois,mfss[p,:,j,i]))
                allbvtvs = np.hstack((allbvtvs,bvtvs[p,:,j]))
 
-            print allvois.shape, allbvtvs.shape
+            print(allvois.shape, allbvtvs.shape)
             correlsAll[p,i] = scipy.stats.stats.spearmanr(allvois,allbvtvs)[0]
 
-    print correlsAll
+    print(correlsAll)
 
     plt.ylim((-1, 1))
     plt.xlim(x1,x2)
@@ -115,12 +115,12 @@ def do_test():
     plt.legend(loc = 2) # loc 4: bottom, right
     plt.show()
     
-    print correls
+    print(correls)
 
 
     figure(2)
 
-    xticks(x,range(-10,10)) # translate
+    xticks(x,list(range(-10,10))) # translate
     for j in range(vois):
         plt.ylim((-1, 1))
         plt.xlim(x1,x2)

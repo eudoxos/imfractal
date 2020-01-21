@@ -25,13 +25,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 
-from Algorithm import *
+from .Algorithm import *
 import numpy as np
 from math import log10
 import scipy.signal
 import scipy.io as sio
 
-from MFS_3D import *
+from .MFS_3D import *
 import scipy.ndimage.interpolation
 
 
@@ -77,11 +77,11 @@ class Stats_MFS_Pyramid_3D (Algorithm):
 
         b = 2*(sigma**2)
         square = lambda i : i**2
-        fm = lambda i: map(square, i)
+        fm = lambda i: list(map(square, i))
 
-        x2 = map(fm, x)
-        y2 = map(fm, y)
-        z2 = map(fm, z)
+        x2 = list(map(fm, x))
+        y2 = list(map(fm, y))
+        z2 = list(map(fm, z))
 
         g = np.sum([x2, y2, z2], axis=0).astype(np.float32)
         g = np.exp(g).astype(np.float32)
@@ -89,7 +89,7 @@ class Stats_MFS_Pyramid_3D (Algorithm):
 
     def determine_threshold(self, arr):
         # compute histogram of values
-        bins = range(np.min(arr), np.max(arr) + 1)
+        bins = list(range(np.min(arr), np.max(arr) + 1))
 
         h = np.histogram(arr, bins=bins)
 
@@ -130,7 +130,7 @@ class Stats_MFS_Pyramid_3D (Algorithm):
 
             a_v = arr.cumsum()
 
-            print "Amount of white pixels: ", a_v[len(a_v) - 1]
+            print("Amount of white pixels: ", a_v[len(a_v) - 1])
 
         # debug - to see the spongious structure
         # plt.imshow((arr[:,:,50]), cmap=plt.gray())
@@ -165,7 +165,7 @@ class Stats_MFS_Pyramid_3D (Algorithm):
             data = base_MFS.gradient(data)
         else:
             if self.params['laplacian'] == True:
-                print "laplacian!"
+                print("laplacian!")
                 data = base_MFS.laplacian(data)
 
 

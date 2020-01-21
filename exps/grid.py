@@ -67,10 +67,10 @@ Usage: grid.py [-log2c begin,end,step] [-log2g begin,end,step] [-v fold]
     while i < len(argv) - 1:
         if argv[i] == "-log2c":
             i = i + 1
-            (c_begin,c_end,c_step) = map(float,argv[i].split(","))
+            (c_begin,c_end,c_step) = list(map(float,argv[i].split(",")))
         elif argv[i] == "-log2g":
             i = i + 1
-            (g_begin,g_end,g_step) = map(float,argv[i].split(","))
+            (g_begin,g_end,g_step) = list(map(float,argv[i].split(",")))
         elif argv[i] == "-v":
             i = i + 1
             fold = argv[i]
@@ -235,7 +235,7 @@ class Worker(Thread):
                 traceback.print_exception(sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2])
                 
                 self.job_queue.put((cexp,gexp))
-                print('worker {0} quit.'.format(self.name))
+                print(('worker {0} quit.'.format(self.name)))
                 break
             else:
                 self.result_queue.put((self.name,cexp,gexp,rate))
@@ -280,7 +280,7 @@ class TelnetWorker(Worker):
         # XXX: how to know whether login is successful?
         tn.read_until(self.username)
         # 
-        print('login ok', self.host)
+        print(('login ok', self.host))
         tn.write("cd "+os.getcwd()+"\n")
         Worker.run(self)
         tn.write("exit\n")               
@@ -364,13 +364,13 @@ def main():
                     best_c1,best_g1=c1,g1
                     best_c = 2.0**c1
                     best_g = 2.0**g1
-                print("[{0}] {1} {2} {3} (best c={4}, g={5}, rate={6})".format \
-		    (worker,c1,g1,rate, best_c, best_g, best_rate))
+                print(("[{0}] {1} {2} {3} (best c={4}, g={5}, rate={6})".format \
+		    (worker,c1,g1,rate, best_c, best_g, best_rate)))
             db.append((c,g,done_jobs[(c,g)]))
         #redraw(db,[best_c1, best_g1, best_rate])
         #redraw(db,[best_c1, best_g1, best_rate],True)
 
     job_queue.put((WorkerStopToken,None))
-    print("{0} {1} {2}".format(best_c, best_g, best_rate))
+    print(("{0} {1} {2}".format(best_c, best_g, best_rate)))
 main()
 

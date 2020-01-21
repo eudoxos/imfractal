@@ -26,7 +26,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 from imfractal import *
-import Image
+from PIL import Image
 import time
 import csv
 import sys
@@ -58,7 +58,7 @@ def do_test():
     
     ins = MFS()
 
-    print 'Training: calculating MFS for the bread database...'
+    print('Training: calculating MFS for the bread database...')
     for i in range(cant):
         ins.setDef(1,20,3,True)
         filename = pathbtr+dirListbtr[i]
@@ -76,12 +76,12 @@ def do_test():
     labels = np.zeros((len(data),1)) # FIX ME
     for i in range(len(data)):
         labels[i] = i
-    labels = map(lambda i: np.floor(i/(2*(cant)))+1, labels)
+    labels = [np.floor(i/(2*(cant)))+1 for i in labels]
     labels = np.array(labels)
     labels = np.transpose(labels)[0]   # FIX ME
-    print "Testing..."
+    print("Testing...")
     scores = cross_validation.cross_val_score(cfr, data, labels, cv=4)
-    print "Classification performance (Random Forest classifier): " + str( np.array(scores).mean() )
+    print("Classification performance (Random Forest classifier): " + str( np.array(scores).mean() ))
 
 
 
